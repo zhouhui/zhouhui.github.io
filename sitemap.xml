@@ -3,22 +3,17 @@
 
     <sitemap>
         <loc>http://www.weilu.tk/post-sitemap.xml</loc>
-        <lastmod>2016-09-20T07:03:28.512Z</lastmod>
+        <lastmod>2016-10-15T02:16:53.520Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://www.weilu.tk/page-sitemap.xml</loc>
-        <lastmod>2016-06-12T15:49:06.387Z</lastmod>
-    </sitemap>
-
-    <sitemap>
-        <loc>http://www.weilu.tk/category-sitemap.xml</loc>
-        <lastmod>2016-06-12T15:46:36.018Z</lastmod>
+        <lastmod>2016-09-20T14:22:47.481Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>http://www.weilu.tk/tag-sitemap.xml</loc>
-        <lastmod>2016-06-12T15:46:36.018Z</lastmod>
+        <lastmod>2016-10-15T02:16:53.520Z</lastmod>
     </sitemap>
 
 </sitemapindex>
