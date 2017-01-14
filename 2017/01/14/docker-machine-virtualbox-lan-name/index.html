@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>zhouhui</title>
+  <title>搭建virtualbox虚拟环境 - 主机名解析 | zhouhui</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zhouhui">
-<meta property="og:url" content="http://www.weilu.tk/index.html">
+  <meta name="description" content="其实基于牲畜和宠物的理论，应用环境对待主机如牲口，并不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。因此在理想状态下，主机名解析根本用不上，这篇文章应该毫无用处。
+但实际上往往并不那么完美，因为成本问题、基础框架的限制、第三方库的限制等等各种原因，你避免不了关心某一台或者某一类主机。既然避免不了，那就至少简化一下吧，各种云平台（比如aws）对于这种功能几乎是无脑提供的，我们无需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建virtualbox虚拟环境 - 主机名解析">
+<meta property="og:url" content="http://www.weilu.tk/2017/01/14/docker-machine-virtualbox-lan-name/index.html">
 <meta property="og:site_name" content="zhouhui">
-<meta property="og:description">
+<meta property="og:description" content="其实基于牲畜和宠物的理论，应用环境对待主机如牲口，并不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。因此在理想状态下，主机名解析根本用不上，这篇文章应该毫无用处。
+但实际上往往并不那么完美，因为成本问题、基础框架的限制、第三方库的限制等等各种原因，你避免不了关心某一台或者某一类主机。既然避免不了，那就至少简化一下吧，各种云平台（比如aws）对于这种功能几乎是无脑提供的，我们无需">
+<meta property="og:updated_time" content="2017-01-14T12:32:01.301Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zhouhui">
-<meta name="twitter:description">
+<meta name="twitter:title" content="搭建virtualbox虚拟环境 - 主机名解析">
+<meta name="twitter:description" content="其实基于牲畜和宠物的理论，应用环境对待主机如牲口，并不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。因此在理想状态下，主机名解析根本用不上，这篇文章应该毫无用处。
+但实际上往往并不那么完美，因为成本问题、基础框架的限制、第三方库的限制等等各种原因，你避免不了关心某一台或者某一类主机。既然避免不了，那就至少简化一下吧，各种云平台（比如aws）对于这种功能几乎是无脑提供的，我们无需">
   
     <link rel="alternate" href="/atom.xml" title="zhouhui" type="application/atom+xml">
   
@@ -56,9 +60,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-docker-machine-virtualbox-lan-name" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-docker-machine-virtualbox-lan-name" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/01/14/docker-machine-virtualbox-lan-name/" class="article-date">
   <time datetime="2017-01-14T12:32:01.000Z" itemprop="datePublished">2017-01-14</time>
@@ -71,8 +73,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/14/docker-machine-virtualbox-lan-name/">搭建virtualbox虚拟环境 - 主机名解析</a>
+    <h1 class="article-title" itemprop="name">
+      搭建virtualbox虚拟环境 - 主机名解析
     </h1>
   
 
@@ -110,52 +112,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-object-function-and-prototype" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/10/15/object-function-and-prototype/" class="article-date">
-  <time datetime="2016-10-15T01:44:14.000Z" itemprop="datePublished">2016-10-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/15/object-function-and-prototype/">object, function and prototype</a>
-    </h1>
+    <a href="/2016/10/15/object-function-and-prototype/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">object, function and prototype</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h2><figure class="highlight javascript"><figcaption><span>what are the results of the following expressions?</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br><span class="line"><span class="built_in">Object</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span></span><br><span class="line"><span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br><span class="line"><span class="built_in">Function</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span></span><br><span class="line"></span><br><span class="line">(&#123;&#125;).__proto__ === <span class="built_in">Object</span>.prototype</span><br><span class="line"><span class="built_in">Object</span>.create(<span class="literal">null</span>) <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br><span class="line"><span class="built_in">Object</span>.create(<span class="built_in">Function</span>.prototype) <span class="keyword">instanceof</span> <span class="built_in">Function</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Symbol</span> <span class="keyword">instanceof</span> <span class="built_in">Function</span></span><br><span class="line"><span class="built_in">Symbol</span>.iterator <span class="keyword">instanceof</span> <span class="built_in">Symbol</span></span><br><span class="line"><span class="built_in">Symbol</span>.iterator.__proto__ === <span class="built_in">Symbol</span>.prototype</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>(<span class="number">5</span>) <span class="keyword">instanceof</span> <span class="built_in">Number</span></span><br><span class="line"><span class="built_in">Number</span>(<span class="number">5</span>).__proto__.constructor === <span class="built_in">Number</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">5</span>) <span class="keyword">instanceof</span> <span class="built_in">Number</span></span><br></pre></td></tr></table></figure>
-<h2 id="illustration"><a href="#illustration" class="headerlink" title="illustration"></a>illustration</h2><p><img src="/images/object-function-prototype.png" alt="Object,Function and prototype"></p>
-<p><img src="/images/inheritance.png" alt="Inheritance"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.weilu.tk/2016/10/15/object-function-and-prototype/" data-id="cixx7qanf00066cuxz5pr6at9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript-prototype/">javascript, prototype</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         

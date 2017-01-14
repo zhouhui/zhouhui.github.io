@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>virtualbox + docker-machine开发环境 - 主机名解析 | 围炉</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="基于牲畜和宠物的理论，应用环境对待主机如牲口，不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。
+但现实往往不那么完美，那就让应用环境做到尽可能的简单、易配置、可扩展。
+Why?你是否有过这种经历，在n台机器上同时编辑/etc/hosts，添加上所有机器的hostname和对应的ip地址？或者，你是否干脆不用hostanme，而是在心中牢记各机器的ip，从而在各种应用场景下都直接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="virtualbox + docker-machine开发环境 - 主机名解析">
+<meta property="og:url" content="http://www.weilu.tk/2016/12/05/docker-machine-virtualbox-lan-name/index.html">
+<meta property="og:site_name" content="围炉">
+<meta property="og:description" content="基于牲畜和宠物的理论，应用环境对待主机如牲口，不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。
+但现实往往不那么完美，那就让应用环境做到尽可能的简单、易配置、可扩展。
+Why?你是否有过这种经历，在n台机器上同时编辑/etc/hosts，添加上所有机器的hostname和对应的ip地址？或者，你是否干脆不用hostanme，而是在心中牢记各机器的ip，从而在各种应用场景下都直接">
+<meta property="og:updated_time" content="2017-01-02T15:55:58.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="virtualbox + docker-machine开发环境 - 主机名解析">
+<meta name="twitter:description" content="基于牲畜和宠物的理论，应用环境对待主机如牲口，不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。
+但现实往往不那么完美，那就让应用环境做到尽可能的简单、易配置、可扩展。
+Why?你是否有过这种经历，在n台机器上同时编辑/etc/hosts，添加上所有机器的hostname和对应的ip地址？或者，你是否干脆不用hostanme，而是在心中牢记各机器的ip，从而在各种应用场景下都直接">
+  
+    <link rel="alternate" href="/atom.xml" title="围炉" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.weilu.tk"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker-machine-virtualbox-lan-name" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/05/docker-machine-virtualbox-lan-name/" class="article-date">
+  <time datetime="2016-12-05T09:10:07.906Z" itemprop="datePublished">2016-12-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      virtualbox + docker-machine开发环境 - 主机名解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>基于牲畜和宠物的理论，应用环境对待主机如牲口，不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。</p>
+<p>但现实往往不那么完美，那就让应用环境做到尽可能的简单、易配置、可扩展。</p>
+<h3 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h3><p>你是否有过这种经历，在n台机器上同时编辑/etc/hosts，添加上所有机器的hostname和对应的ip地址？或者，你是否干脆不用hostanme，而是在心中牢记各机器的ip，从而在各种应用场景下都直接使用ip，无论是手动ssh访问某台机器还是各种应用的配置文件，到处都是ip地址。然而，随着所需要应用的多样化以及机器数目的增加，你发现噩梦开始了，不仅需要确保每台机器的ip地址不会改变，还需要修改各种应用的配置；不仅经常改错，而且久而久之，甚至不敢动它们了。</p>
+<p>在开发环境中，经常变化的东西实在太多了，尤其面对分布式环境的时候。使用域名来替代ip，可以避免在环境的配置上疲于奔命，还可以使自己的环境具有更强的伸缩性，从而更方便地进行开发及相关工作。</p>
+<h3 id="基础开发环境"><a href="#基础开发环境" class="headerlink" title="基础开发环境"></a>基础开发环境</h3><p>基础开发环境的不同，会有不一样或者更简便的方法达到目的。这里是windows10 + virtualbox + docker-toolbox</p>
+<h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><p>面向virtualbox的某个hostonly子网，关闭其自带的dhcp服务；并在此子网中某台虚拟机上安装dnsmasq，配置dhcp和dns为整个子网服务。这样，此子网中有新机器上线，会通过dhcp服务配置ip及相关的dns信息，同时dnsmasq会将此机器的hostname及ip注册到dns中，从而达到让所有机器通过hostname互相访问的目的。</p>
+<h3 id="安装virtualbox和docker-toolbox"><a href="#安装virtualbox和docker-toolbox" class="headerlink" title="安装virtualbox和docker-toolbox"></a>安装virtualbox和docker-toolbox</h3><p>略</p>
+<p>注：需要注意的一点是，目前（2016年12月）最新docker-toolbox中所含的是docker-machine最新稳定版，但这里需要最新RC版的一些功能，所以在此手工另外下载了docker-machine.exe并进行了替换。</p>
+<p>### </p>
+<p>sudo ifconfig eth1 192.168.99.10 netmask 255.255.255.0 broadcast 192.168.99.255 up</p>
+<p>sudo ifconfig eth0 10.0.2.15 netmask 255.255.255.0 broadcast 10.0.2.255 up<br>bootsync.sh</p>
+<p>docker-machine create -d virtualbox –virtualbox-boot2docker-url <a href="https://releases.rancher.com/os/latest/rancheros.iso" target="_blank" rel="external">https://releases.rancher.com/os/latest/rancheros.iso</a> –virtualbox-hostonly-no-dhcp default</p>
+<p>docker-machine create -d virtualbox –virtualbox-boot2docker-url file://C:\Users\zhouhui\docker\rancheros.iso –virtualbox-hostonly-no-dhcp default1</p>
+<p>sudo vi /var/lib/rancher/conf/cloud-config.d/machine.yml<br>   eth1:<br>    dhcp: true<br>    ==&gt;<br>   eth1:<br>    address: 192.168.99.10/24</p>
+<p> network:<br>  interfaces:<br>   eth0:<br>    dhcp: false<br>    address: 10.0.2.15/24<br>    gateway: 10.0.2.2<br>   eth1:<br>    dhcp: true<br>   lo:<br>    address: 127.0.0.1/8<br>  dns:<br>   override: true<br>   nameservers:</p>
+<ul>
+<li>192.168.99.10</li>
+</ul>
+<p>docker run -d  –restart=always –name dnsmasq –net=host –cap-add=NET_ADMIN -v /home/docker/dnsmasq.conf:/etc/dnsmasq.conf andyshinn/dnsmasq:2.75</p>
+<p>docker run -d  –restart=always –name dnsmasq –net=host –cap-add=NET_ADMIN -v /home/docker/dnsmasq.conf:/etc/dnsmasq.conf  -v /home/docker/additional_hosts:/etc/additional_hosts andyshinn/dnsmasq:2.75</p>
+<p>docker-machine ssh node1 sudo ros config set rancher.network.interfaces.eth0.dhcp false<br>docker-machine ssh node1 sudo ros config set rancher.network.interfaces.eth0.address 10.0.2.15/24<br>docker-machine ssh node1 sudo ros config set rancher.network.interfaces.eth0.gateway 10.0.2.2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.weilu.tk/2016/12/05/docker-machine-virtualbox-lan-name/" data-id="cixwwodo50000x4uxl5s6bndl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-machine-virtualbox-hostname/">docker-machine virtualbox hostname</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/03/rancheros/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">rancheros</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-machine-virtualbox-hostname/">docker-machine virtualbox hostname</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript-prototype/">javascript, prototype</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/docker-machine-virtualbox-hostname/" style="font-size: 10px;">docker-machine virtualbox hostname</a> <a href="/tags/javascript-prototype/" style="font-size: 10px;">javascript, prototype</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/05/docker-machine-virtualbox-lan-name/">virtualbox + docker-machine开发环境 - 主机名解析</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/03/rancheros/">rancheros</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/01/ssl-related/">ssl-related</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/29/test-virtual-io-speed/">test-virtual-io-speed</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/25/docker-registry/">docker-registry</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 ZhouHui (zhou.hui@outlook.com)<br>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
