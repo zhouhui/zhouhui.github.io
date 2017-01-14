@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="zhouhui">
 <meta property="og:description" content="其实基于牲畜和宠物的理论，应用环境对待主机如牲口，并不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。因此在理想状态下，主机名解析根本用不上，这篇文章应该毫无用处。
 但实际上往往并不那么完美，因为成本问题、基础框架的限制、第三方库的限制等等各种原因，你避免不了关心某一台或者某一类主机。既然避免不了，那就至少简化一下吧，各种云平台（比如aws）对于这种功能几乎是无脑提供的，我们无需">
-<meta property="og:updated_time" content="2017-01-14T12:32:01.301Z">
+<meta property="og:updated_time" content="2017-01-14T15:45:14.298Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建virtualbox虚拟环境 - 主机名解析">
 <meta name="twitter:description" content="其实基于牲畜和宠物的理论，应用环境对待主机如牲口，并不关心哪头牲口干活，所以不会关心牲口的名字，更不会关心它的IP地址。因此在理想状态下，主机名解析根本用不上，这篇文章应该毫无用处。
@@ -94,9 +94,10 @@
 <p>另外在此推荐使用ConEmu配置并启动start.wrapper.sh</p>
 <h3 id="Step-4-创建虚机"><a href="#Step-4-创建虚机" class="headerlink" title="Step 4 - 创建虚机"></a>Step 4 - 创建虚机</h3><p>创建虚机的命令与使用原始的docker-machine命令别无二致，尝试一下如下命令创建三个虚机，然后试试主机名解析是否起作用。注意mgr1始终会被分配成静态地址192.168.99.91，具体实现及配置请见<a href="https://github.com/zhouhui/docker-machine-virtualbox-lan-name/blob/master/docker-machine.exe" target="_blank" rel="external">cheet docker-machine.exe</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create <span class="_">-d</span> virtualbox node1</span><br><span class="line">docker-machine create <span class="_">-d</span> virtualbox node2</span><br><span class="line">docker-machine create <span class="_">-d</span> virtualbox mgr1</span><br></pre></td></tr></table></figure></p>
 <h3 id="Step-5-修改脚本以满足自己的需要"><a href="#Step-5-修改脚本以满足自己的需要" class="headerlink" title="Step 5 - 修改脚本以满足自己的需要"></a>Step 5 - 修改脚本以满足自己的需要</h3><p>自动化脚本比较简单，完全可以随意修改它以满足不同环境的需要。</p>
-<h2 id="FQA"><a href="#FQA" class="headerlink" title="FQA"></a>FQA</h2><ol>
+<h2 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q &amp; A"></a>Q &amp; A</h2><ol>
 <li>为什么不直接修改Docker Toolbox的start.sh?</li>
 <li>docker-machine创建完虚机后为什么要额外重启一次?</li>
+<li>如何停止virtualbox自带的dhcp服务</li>
 <li>如何改变子网地址，比如把192.168.99.1/24换成192.168.98.1/24?</li>
 <li>如何在一台开发机上平行部署多套环境?</li>
 </ol>
@@ -104,7 +105,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.weilu.tk/2017/01/14/docker-machine-virtualbox-lan-name/" data-id="cixx7qanb00056cuxnlhsxbmp" class="article-share-link">Share</a>
+      <a data-url="http://www.weilu.tk/2017/01/14/docker-machine-virtualbox-lan-name/" data-id="cixxengqa0004xwux8w1q9yal" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-machine-virtualbox-hostname-ConEmu/">docker-machine virtualbox hostname ConEmu</a></li></ul>
